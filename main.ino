@@ -1,8 +1,8 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 
-const char* ssid = "NOME_DA_SUA_REDE";
-const char* password = "SENHA_DA_REDE";
+const char* ssid = "kmdf_5g";
+const char* password = "06454charlotte";
 const char* mqtt_server = "broker.hivemq.com";
 const int mqtt_port = 1883;
 const char* mqtt_topic = "mackenzie/leak_detection";
@@ -12,14 +12,15 @@ PubSubClient client(espClient);
 
 void setup() {
   Serial.begin(115200);
-  conectarWiFi();
-  client.setServer(mqtt_server, mqtt_port);
   pinMode(5, OUTPUT);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) delay(500);
+  client.setServer(mqtt_server, mqtt_port);
 }
 
 void loop() {
   if (!client.connected()) {
-    reconectarMQTT();
+    while (!client.connect("ESP32_CLIENT")) delay(5000);
   }
   client.loop();
 
@@ -27,27 +28,11 @@ void loop() {
   int vazao = pulseIn(12, HIGH);
 
   if (umidade > 2000 || vazao > 500) {
-    String mensagem = "{\"umidade\":" + String(umidade) + ",\"vazao\":" + String(vazao) + "}";
-    client.publish(mqtt_topic, mensagem.c_str());
+    String payload = "{\"umidade\":"+String(umidade)+",\"vazao\":"+String(vazao)+"}";
+    client.publish(mqtt_topic, payload.c_str());
     digitalWrite(5, HIGH);
     delay(10000);
     digitalWrite(5, LOW);
   }
   delay(2000);
-}
-
-void conectarWiFi() {
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-  }
-}
-
-void reconectarMQTT() {
-  while (!client.connected()) {
-    if (client.connect("ESP32_CLIENT")) {
-    } else {
-      delay(5000);
-    }
-  }
 }
