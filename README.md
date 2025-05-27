@@ -6,4 +6,11 @@ Funcionalidades
 - Alertas via MQTT e acionamento de relé  
 
 Links Úteis  
-- [Vídeo de Demonstração](https://youtu.be/MBHQsjjp3Tc?si=GLSnhF7o2RGtjAq6))  
+- [Vídeo de Demonstração](https://youtu.be/MBHQsjjp3Tc?si=GLSnhF7o2RGtjAq6)
+
+Hardware  
+| Componente   | Pino ESP32 |  
+|--------------|-----------|  
+| Sensor YL-69 | GPIO 34   |  
+| Sensor YF-S201| GPIO 12   |  
+| Relé         | GPIO 5    |  
