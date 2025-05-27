@@ -17,6 +17,7 @@ Hardware
 
 Simulação no Wokwi
 O código usado para simulação está em (https://wokwi.com/projects/432063705287955457) 
+
 **Diferenças para o projeto físico**:  
 - Pinos virtuais (ex: `BOTAO_FLUXO = 2` no Wokwi vs. `GPIO 12` no hardware real)  
 - Wi-Fi fixo (`Wokwi-GUEST`) vs. configuração personalizável  
